@@ -42,15 +42,26 @@ class WeatherInfo extends React.Component {
             let list = items.list.map((item, key) => {
                 let date = new Date(item.dt*1000)
                 // let today = date.toDateString()
-                let newDate = date.getDate()
+                let dayOfMonth = date.getDate()
                 let month = date.getMonth()
                 console.log(date)
+                let dayTemperatures = item.main.temp
+
+                if(month = 9){
+                    month = "September ";
+                }
+           
+                if (dayOfMonth == dayOfMonth){
+                 Math.max(dayTemperatures)
+                 console.log(dayTemperatures)
+                }
                 return ( 
                 <li key = "{key}">
-                    {newDate}
-                    {month}:  
+                    {month} 
+                    {dayOfMonth}th
+                    
 
-                    {item.main.temp} 
+                    {dayTemperatures} 
                 </li>
                     )
                 })
