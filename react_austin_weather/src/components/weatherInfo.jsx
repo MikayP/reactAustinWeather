@@ -39,22 +39,67 @@ class WeatherInfo extends React.Component {
             }
         else {
             // const maxTempDay = item.list[0].dt.filter(maxTemp == )
+
+            // var array = [1, 2, 3, -1]
+            // var maxValue = Number.MIN_SAFE_INTEGER
+            // for (i = 0; i < array.length; i++){
+                
+            //     console.log(maxValue)
+            //     if(array[i] > maxValue){
+            //         maxValue = array[i]
+            //     }
+            // }
+            // console.log(maxValue)
+            var i;
+            var maxTempsArray = [];
+            var maxValue = Number.MIN_SAFE_INTEGER;
+            var currentDay;
+            debugger
+            for (i = 0; i < items.list.length; i++){
+                let item = items.list[i]
+                let timeStamp = item.dt
+                let date = new Date(timeStamp*1000)
+                let dayOfMonth = date.getDate()
+
+                // console.log(dayOfMonth)
+                let allTemps = item.main
+                let tempForecast = item.main.temp
+                // console.log(dayOfMonth)
+                // console.log(tempForecast)
+                // console.log(allTemps)
+
+                // console.log(tempForecast)
+                if ( tempForecast > maxValue ){
+                    maxValue = tempForecast
+                }
+
+                if (currentDay == undefined){
+                    currentDay = dayOfMonth
+                } else if (currentDay != dayOfMonth) {
+                    currentDay = dayOfMonth
+                    maxTempsArray.push(maxValue);
+                    maxValue = 0;
+                }
+            }
+
+           
+            console.log(maxTempsArray)
             let list = items.list.map((item, key) => {
                 let date = new Date(item.dt*1000)
                 // let today = date.toDateString()
                 let dayOfMonth = date.getDate()
                 let month = date.getMonth()
-                console.log(date)
+                // console.log(date)
                 let dayTemperatures = item.main.temp
 
                 if(month = 9){
                     month = "September ";
                 }
            
-                if (dayOfMonth == dayOfMonth){
-                 Math.max(dayTemperatures)
-                 console.log(dayTemperatures)
-                }
+                // if (dayOfMonth == dayOfMonth){
+                //  Math.max(dayTemperatures)
+                //  console.log(dayTemperatures)
+                // }
                 return ( 
                 <li key = "{key}">
                     {month} 
