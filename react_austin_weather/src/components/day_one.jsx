@@ -1,12 +1,5 @@
 import React from "react";
-// import REACT_APP_OPEN_WEATHER_API_KEY from '../.env';
-
-// const REACT_APP_API_ADDRESS = REACT_APP_OPEN_WEATHER_API_KEY;
-
-//const REACT_APP_API_ADDRESS = `${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
-// console.log('HI', REACT_APP_OPEN_WEATHER_API_KEY);
-
-class WeatherInfo extends React.Component {
+class DayOne extends React.Component {
 
     constructor() {
         super();
@@ -53,8 +46,10 @@ class WeatherInfo extends React.Component {
             // console.log(maxValue)
             var i;
             var maxTempsArray = [];
+            var dayOneArray = [];
             var maxValue = Number.MIN_SAFE_INTEGER;
             var currentDay;
+            var otherDaysArray = [];
             for (i = 0; i < items.list.length; i++){
                 let item = items.list[i]
                 let timeStamp = item.dt
@@ -82,43 +77,41 @@ class WeatherInfo extends React.Component {
                 }
             }
 
-           
+            //Looping through all the days
+            var firstDay = [];
+            var firstDayVar;
+            for (i = 0; i < items.list.length; i++){
+                let item = items.list[i].dt
+                let date = new Date(item*1000)
+                let dateNumber = date.getDate()
+                let date_text = items.list[i].dt_txt
+                let dateString = date_text.substring(0,10)
+                console.log(dateString)
+
+                if (firstDayVar === undefined){
+                    firstDayVar = dateNumber
+                    // console.log(firstDay)
+                } else if (firstDayVar !== dateNumber) {
+                    firstDayVar = dateNumber
+                   
+                     firstDay.push(firstDayVar);
+            }
+            // console.log(item)
             // console.log(maxTempsArray)
-            let list = items.list.map((item, key) => {
-                let date = new Date(item.dt*1000)
-                // let today = date.toDateString()
-                let dayOfMonth = date.getDate()
-                let month = date.getMonth()
-                // console.log(date)
-                let dayTemperatures = item.main.temp
-
-                if(month = 9){
-                    month = "September ";
-                }
-           
-                // if (dayOfMonth == dayOfMonth){
-                //  Math.max(dayTemperatures)
-                //  console.log(dayTemperatures)
-                // }
-                return ( 
-                <li key = "{key}">
-                    {month} 
-                    {dayOfMonth}th
-                    
-
-                    {dayTemperatures} 
-                </li>
-                    )
-                })
+        }
+  
 //Math.max(...myArray)
             return ( <div>
-                        <ul>{list}</ul>  
+                        {firstDay[0]}
+                        <ul>
+                        
+                        <li>{maxTempsArray[0]}</li>
+                        <li>{maxTempsArray[1]}</li>
+                        </ul>  
                     </div>
                 );
-            }
+          
     }
 }
-
-
-
-export default WeatherInfo;
+}
+export default DayOne;

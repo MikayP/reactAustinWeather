@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './components/header';
 import WeatherInfo from './components/weatherInfo';
-
+import DayOne from './components/day_one';
 class App extends React.Component {
 
 
@@ -28,6 +28,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
+        <DayOne />
         <WeatherInfo />
       </div>
 
