@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/header';
 import WeatherInfo from './components/weatherInfo';
 import DayOne from './components/day_one';
+// import Data from '.components/data';
 class App extends React.Component {
 
 
@@ -29,7 +30,6 @@ class App extends React.Component {
       <div className="App">
         <Header />
         <DayOne />
-        <WeatherInfo />
       </div>
 
     );

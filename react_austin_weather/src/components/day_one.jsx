@@ -32,86 +32,42 @@ class DayOne extends React.Component {
             return ( <div> Loading... </div>)
             }
         else {
-            // const maxTempDay = item.list[0].dt.filter(maxTemp == )
-
-            // var array = [1, 2, 3, -1]
-            // var maxValue = Number.MIN_SAFE_INTEGER
-            // for (i = 0; i < array.length; i++){
+            fetch('https://api.openweathermap.org/data/2.5/forecast?q=Austin,USA&appid=583f803dfc6a7f2f96ff9957c330c2b0&units=imperial').then(response => response.json()).then(data => {
+                const groupedData = data.list.reduce((days, row) => {
+                  const date = row.dt_txt.split(' ')[0];
+                  days[date] = [...(days[date] ? days[date]: []), row];
+                  return days;
+                }, {});
                 
-            //     console.log(maxValue)
-            //     if(array[i] > maxValue){
-            //         maxValue = array[i]
-            //     }
-            // }
-            // console.log(maxValue)
-            var i;
-            var maxTempsArray = [];
-            var dayOneArray = [];
-            var maxValue = Number.MIN_SAFE_INTEGER;
-            var currentDay;
-            var otherDaysArray = [];
-            for (i = 0; i < items.list.length; i++){
-                let item = items.list[i]
-                let timeStamp = item.dt
-                let date = new Date(timeStamp*1000)
-                let dayOfMonth = date.getDate()
-
-                // console.log(dayOfMonth)
-                let allTemps = item.main
-                let tempForecast = item.main.temp
-                // console.log(dayOfMonth)
-                // console.log(tempForecast)
-                // console.log(allTemps)
-
-                // console.log(tempForecast)
-                if ( tempForecast > maxValue ){
-                    maxValue = tempForecast
+                for(let date of Object.keys(groupedData)){
+                  console.log('Date:', date); 
+                  // current date -> date
+                  // original items array for this date -> groupedData[date]
+                  console.log('RowCount:', groupedData[date].length);
+                  console.log('MaxTemp:', getMax(groupedData[date], 'temp_max'));
+                  console.log('MinTemp:', getMin(groupedData[date], 'temp_min'));
+                  console.log('MaxHumidity:', getMax(groupedData[date], 'humidity'));
+                  
+                  console.log('\n\n');
                 }
-
-                if (currentDay === undefined){
-                    currentDay = dayOfMonth
-                } else if (currentDay !== dayOfMonth) {
-                    currentDay = dayOfMonth
-                    maxTempsArray.push(maxValue);
-                    maxValue = 0;
-                }
-            }
-
-            //Looping through all the days
-            var firstDay = [];
-            var firstDayVar;
-            for (i = 0; i < items.list.length; i++){
-                let item = items.list[i].dt
-                let date = new Date(item*1000)
-                let dateNumber = date.getDate()
-                let date_text = items.list[i].dt_txt
-                let dateString = date_text.substring(0,10)
-                console.log(dateString)
-
-                if (firstDayVar === undefined){
-                    firstDayVar = dateNumber
-                    // console.log(firstDay)
-                } else if (firstDayVar !== dateNumber) {
-                    firstDayVar = dateNumber
-                   
-                     firstDay.push(firstDayVar);
-            }
-            // console.log(item)
-            // console.log(maxTempsArray)
+              });
+              
+              function getMax(arr, attr){
+                return Math.max.apply(Math, arr.map(item => item.main[attr]));
+              }
+              
+              function getMin(arr, attr){
+                return Math.min.apply(Math, arr.map(item => item.main[attr]));
+              }
         }
   
 //Math.max(...myArray)
             return ( <div>
-                        {firstDay[0]}
-                        <ul>
                         
-                        <li>{maxTempsArray[0]}</li>
-                        <li>{maxTempsArray[1]}</li>
-                        </ul>  
                     </div>
                 );
           
     }
 }
-}
+
 export default DayOne;
